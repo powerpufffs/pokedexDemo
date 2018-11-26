@@ -121,19 +121,17 @@ class ViewController : UITableViewController {
                 let load = try JSONDecoder().decode(Pokemon.self, from: data)
                 self.pokemon = load
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    //Pass values to next VC
+                    detailVC.name = self.pokemon?.name ?? ""
+                    detailVC.weight = self.pokemon?.weight ?? 0
+                    detailVC.height = self.pokemon?.height ?? 0
                 }
-                
             } catch let jsonErr {
                 print("Error serializing inner JSON:", jsonErr)
             }
             }.resume()
         
-        //Pass values to next VC
-        detailVC.name = self.pokemon?.name ?? ""
-        detailVC.weight = self.pokemon?.weight ?? 0
-        detailVC.height = self.pokemon?.height ?? 0
-        
+        //Initiate push segue
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
