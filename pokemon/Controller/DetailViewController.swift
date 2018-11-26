@@ -18,11 +18,16 @@ class DetailViewController : UIViewController {
         super.viewDidLoad()
         guard let navbar = navigationController?.navigationBar else { return }
         view.addSubview(navBar)
+        navbar.prefersLargeTitles = false;
         view.backgroundColor = .white
     }
     
     override func viewDidAppear(_ animated: Bool) {
         setupLabels()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     //Creates Labels and places in a stackview to be arragned vertically
@@ -33,7 +38,7 @@ class DetailViewController : UIViewController {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
             label.textAlignment = .center
-            label.text = "Name: " + pokemon.name
+            label.text = "Name: " + pokemon.name.capitalizingFirstLetter()
             label.font = label.font.withSize(30)
             label.backgroundColor = UIColor.red.withAlphaComponent(0.3)
             return label
@@ -68,7 +73,7 @@ class DetailViewController : UIViewController {
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 130),
+            stackView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 85),
             stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             stackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
             stackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20)

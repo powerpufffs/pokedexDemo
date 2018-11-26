@@ -47,7 +47,6 @@ class ViewController : UITableViewController {
         
         //Set up Navigation Bar
         navigationItem.title = "Pokemon"
-        navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.barTintColor = UIColor.red.withAlphaComponent(0.5)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
     }
@@ -56,6 +55,11 @@ class ViewController : UITableViewController {
         setTitleImage()
     }
     
+    //reset settings every time vc is presented
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        setTitleImage()
+    }
     //Style of section headers
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
@@ -116,20 +120,20 @@ class ViewController : UITableViewController {
     }
     
     func setTitleImage() {
-        var buttonImage : UIImageView {
-            let imageView = UIImageView()
-            imageView.image = #imageLiteral(resourceName: "pokeball")
-            imageView.frame = CGRect(x: view.frame.maxX, y: view.frame.minY, width: 100, height: 100)
-            imageView.contentMode = .scaleAspectFit
-            return imageView
-        }
-        
-        navigationItem.titleView = buttonImage
-        
-//        //Adding the button
-//        let buttonImage = #imageLiteral(resourceName: "button")
-//        let circleImage = #imageLiteral(resourceName: "whiteCircle")
+//        var buttonImage : UIImageView {
+//            let imageView = UIImageView()
+//            imageView.image = #imageLiteral(resourceName: "pokeball")
+//            imageView.frame = CGRect(x: view.frame.maxX, y: view.frame.minY, width: 100, height: 100)
+//            imageView.contentMode = .scaleAspectFit
+//            return imageView
+//        }
 //
+//        navigationItem.titleView = buttonImage
+
+        //Adding the button
+        let buttonImage = #imageLiteral(resourceName: "button")
+        let circleImage = #imageLiteral(resourceName: "whiteCircle")
+
 //        var buttonView : UIImageView {
 //            let view = UIImageView(image: buttonImage)
 //            view.translatesAutoresizingMaskIntoConstraints = false
@@ -137,17 +141,25 @@ class ViewController : UITableViewController {
 //            view.backgroundColor = .clear
 //            return view
 //        }
-//
-//        var circle : UIImageView {
-//            let view = UIImageView(image: circleImage)
-//            view.translatesAutoresizingMaskIntoConstraints = false
-//            view.frame = CGRect(x: 0, y: 0, width: 130, height: 130)
-//            view.center = buttonView.center
-//            return view
-//        }
-//
-//        view.addSubview(circle)
-//        view.addSubview(buttonView)
+        
+        var buttonView : UIImageView {
+            let view = UIImageView(image: buttonImage)
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.frame = CGRect(x: self.view.frame.maxX - 100, y: self.view.frame.minY - 100, width: 200, height: 200)
+            view.backgroundColor = .clear
+            return view
+        }
+
+        var circle : UIImageView {
+            let view = UIImageView(image: circleImage)
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.frame = CGRect(x: 0, y: 0, width: 130, height: 130)
+            view.center = buttonView.center
+            return view
+        }
+
+        view.addSubview(circle)
+        view.addSubview(buttonView)
 //
 //        NSLayoutConstraint.activate([
 //            buttonView.heightAnchor.constraint(equalToConstant: 200),
@@ -160,5 +172,18 @@ class ViewController : UITableViewController {
 //            //            circle.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
 //            //            circle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
 //            ])
+        
+//        var view : UIView {
+//            let view = UIView()
+//            view.frame = (self.navigationController?.navigationBar.frame)!
+//            view.backgroundColor = UIColor.white
+//            view.layer.masksToBounds = false
+//            view.layer.shadowOpacity = 0.4 // your opacity
+//            view.layer.shadowOffset = CGSize(width: 0, height: 2) // your offset
+//            view.layer.shadowRadius =  4 //your radius
+//            return view
+//        }
+//        
+//        self.view.addSubview(view)
     }
 }
