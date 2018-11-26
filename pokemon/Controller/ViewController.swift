@@ -53,27 +53,7 @@ class ViewController : UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //Adding the button
-        let buttonImage = #imageLiteral(resourceName: "button")
-        let circleImage = #imageLiteral(resourceName: "whiteCircle")
-        var buttonView : UIImageView {
-            let view = UIImageView(image: buttonImage)
-            view.translatesAutoresizingMaskIntoConstraints = false
-            view.frame = CGRect(x: self.view.frame.maxX - 100, y: self.view.frame.minY-100, width: 200, height: 200)
-            view.backgroundColor = .clear
-            return view
-        }
-        
-        var circle : UIImageView {
-            let view = UIImageView(image: circleImage)
-            view.translatesAutoresizingMaskIntoConstraints = false
-            view.frame = CGRect(x: 0, y: 0, width: 130, height: 130)
-            view.center = buttonView.center
-            return view
-        }
-        
-        view.addSubview(circle)
-        view.addSubview(buttonView)
+        setTitleImage()
     }
     
     //Style of section headers
@@ -120,7 +100,7 @@ class ViewController : UITableViewController {
             do {
                 let load = try JSONDecoder().decode(Pokemon.self, from: data)
                 self.pokemon = load
-                DispatchQueue.main.async {
+                DispatchQueue.main.sync {
                     //Pass values to next VC
                     detailVC.name = self.pokemon?.name ?? ""
                     detailVC.weight = self.pokemon?.weight ?? 0
@@ -133,5 +113,52 @@ class ViewController : UITableViewController {
         
         //Initiate push segue
         self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    func setTitleImage() {
+        var buttonImage : UIImageView {
+            let imageView = UIImageView()
+            imageView.image = #imageLiteral(resourceName: "pokeball")
+            imageView.frame = CGRect(x: view.frame.maxX, y: view.frame.minY, width: 100, height: 100)
+            imageView.contentMode = .scaleAspectFit
+            return imageView
+        }
+        
+        navigationItem.titleView = buttonImage
+        
+//        //Adding the button
+//        let buttonImage = #imageLiteral(resourceName: "button")
+//        let circleImage = #imageLiteral(resourceName: "whiteCircle")
+//
+//        var buttonView : UIImageView {
+//            let view = UIImageView(image: buttonImage)
+//            view.translatesAutoresizingMaskIntoConstraints = false
+//            view.frame = CGRect(x: self.view.frame.maxX - 100, y: self.view.frame.minY-100, width: 200, height: 200)
+//            view.backgroundColor = .clear
+//            return view
+//        }
+//
+//        var circle : UIImageView {
+//            let view = UIImageView(image: circleImage)
+//            view.translatesAutoresizingMaskIntoConstraints = false
+//            view.frame = CGRect(x: 0, y: 0, width: 130, height: 130)
+//            view.center = buttonView.center
+//            return view
+//        }
+//
+//        view.addSubview(circle)
+//        view.addSubview(buttonView)
+//
+//        NSLayoutConstraint.activate([
+//            buttonView.heightAnchor.constraint(equalToConstant: 200),
+//            buttonView.widthAnchor.constraint(equalToConstant: 200),
+//            buttonView.topAnchor.constraint(equalTo: view.topAnchor, constant: 300),
+//            buttonView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -300),
+//
+//            //            circle.heightAnchor.constraint(equalToConstant: 200),
+//            //            circle.widthAnchor.constraint(equalToConstant: 200),
+//            //            circle.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+//            //            circle.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+//            ])
     }
 }
