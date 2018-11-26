@@ -25,12 +25,13 @@ class ViewController : UITableViewController {
         let url = "https://pokeapi.co/api/v2/pokemon/"
         guard let jsonUrl = URL(string: url) else { return }
         
+        //First API Call to retrieve list of Pokemon. Could be done better if it was dynamically called as the user scrolls down
         URLSession.shared.dataTask(with: jsonUrl) {(data, response, error) in
             guard let data = data else { return }
             do {
                 let load = try JSONDecoder().decode(Pokedex.self, from: data)
                 self.pokedex = load;
-                
+            
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -38,79 +39,81 @@ class ViewController : UITableViewController {
                 print("Error serializing JSON: ", jsonErr)
             }
         }.resume()
-        
-//        URLSession.shared.dataTask(with: urlObj) {(data, response, error) in
-//            guard let data = data else { return }
-//
-//            do {
-//                pokedex = try JSONDecoder().decode(Pokedex.self, from: data)
-//
-//                for pokemon in pokedex.results {
-//                    guard let jsonURL = pokemon.url else { return }
-//                    guard let newURL = URL(string: jsonURL) else { return }
-//
-//                    URLSession.shared.dataTask(with: newURL) {(data, response, error) in
-//                        guard let data = data else { return }
-//
-//                        do {
-//                            let load = try JSONDecoder().decode(Pokemon.self, from: data)
-//                            self.pokemons.append(load)
-//                            DispatchQueue.main.async {
-//                                self.tableView.reloadData()
-//                            }
-//
-//                        } catch let jsonErr {
-//                            print("Error serializing inner JSON:", jsonErr)
-//                        }
-//                    }.resume()
-//                }
-//            } catch let jsonErr{
-//                print("Error serializing JSON: ", jsonErr)
-//            }
-//        }.resume()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadJSON()
         
+        //Set up Navigation Bar
         navigationItem.title = "Pokemon"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.barTintColor = UIColor.red.withAlphaComponent(0.5)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        //Adding the button
+        let buttonImage = #imageLiteral(resourceName: "button")
+        let circleImage = #imageLiteral(resourceName: "whiteCircle")
+        var buttonView : UIImageView {
+            let view = UIImageView(image: buttonImage)
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.frame = CGRect(x: self.view.frame.maxX - 100, y: self.view.frame.minY-100, width: 200, height: 200)
+            view.backgroundColor = .clear
+            return view
+        }
+        
+        var circle : UIImageView {
+            let view = UIImageView(image: circleImage)
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.frame = CGRect(x: 0, y: 0, width: 130, height: 130)
+            view.center = buttonView.center
+            return view
+        }
+        
+        view.addSubview(circle)
+        view.addSubview(buttonView)
+    }
+    
+    //Style of section headers
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.text = "By Id"
-        label.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        label.textColor = .white
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         return label
     }
     
+    //Number of Sections
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
+    //Returns number of Cells
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let count = pokedex?.results.count else { return 0 }
         return count
     }
     
+    //Sets characteristics of each cell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         guard let pokedexTemp = pokedex else { return cell }
         
-        let name = pokedexTemp.results[indexPath.row].name
+        let name = pokedexTemp.results[indexPath.row].name?.capitalizingFirstLetter()
         cell.textLabel?.text = "\(name ?? "")"
         return cell
     }
     
+    //Prepares for push segue
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVC = DetailViewController()
         
         guard let jsonUrl = pokedex?.results[indexPath.row].url else { return }
         guard let url = URL(string: jsonUrl) else { return }
         
+        //Second API call to fetch individual Pokemon Data
         URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             
@@ -126,6 +129,7 @@ class ViewController : UITableViewController {
             }
             }.resume()
         
+        //Pass values to next VC
         detailVC.name = self.pokemon?.name ?? ""
         detailVC.weight = self.pokemon?.weight ?? 0
         detailVC.height = self.pokemon?.height ?? 0

@@ -13,6 +13,7 @@
 		7F0B2CB221AA2FF300312E9B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F0B2CB021AA2FF300312E9B /* LaunchScreen.storyboard */; };
 		7FB31F4821AA32AF005FD677 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB31F4721AA32AF005FD677 /* DetailViewController.swift */; };
 		7FB31F4B21AA330B005FD677 /* Pokemon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB31F4A21AA330B005FD677 /* Pokemon.swift */; };
+		7FB31F4E21AB6F62005FD677 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB31F4D21AB6F62005FD677 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		7F0B2CB321AA2FF300312E9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7FB31F4721AA32AF005FD677 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7FB31F4A21AA330B005FD677 /* Pokemon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pokemon.swift; sourceTree = "<group>"; };
+		7FB31F4D21AB6F62005FD677 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		7F0B2CA621AA2FF200312E9B /* pokemon */ = {
 			isa = PBXGroup;
 			children = (
+				7FB31F4C21AB6F58005FD677 /* Extensions */,
 				7FB31F4921AA32E3005FD677 /* Supporting */,
 				7FB31F4421AA30FC005FD677 /* Model */,
 				7FB31F4521AA3101005FD677 /* View */,
@@ -97,6 +100,14 @@
 				7F0B2CA721AA2FF200312E9B /* AppDelegate.swift */,
 			);
 			path = Supporting;
+			sourceTree = "<group>";
+		};
+		7FB31F4C21AB6F58005FD677 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7FB31F4D21AB6F62005FD677 /* Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +180,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FB31F4E21AB6F62005FD677 /* Extensions.swift in Sources */,
 				7FB31F4821AA32AF005FD677 /* DetailViewController.swift in Sources */,
 				7FB31F4B21AA330B005FD677 /* Pokemon.swift in Sources */,
 				7F0B2CAA21AA2FF200312E9B /* ViewController.swift in Sources */,
